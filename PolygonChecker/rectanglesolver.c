@@ -40,5 +40,5 @@ int* getRectanglePoints(int* points) {
         printf("Point %d (x, y): ", (i / 2) + 1); // Prompt for point coordinates
         scanf_s("%d %d", &points[i], &points[i + 1]); // Read point coordinates from user (using scanf_s)
     }
-    return points; // Return array of points
+    return points; 
 }
