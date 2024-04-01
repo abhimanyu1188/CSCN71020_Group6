@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
+#include <stdlib.h> // Include stdlib.h for memory allocation
 
 #include "rectangleSolver.h"
 
@@ -19,9 +20,18 @@ char* analyzeRectangle(int x1, int y1, int x2, int y2, int x3, int y3, int x4, i
     if (line1 == line3 && line2 == line4) {
         int perimeter = line1 + line2 + line3 + line4; // Calculate perimeter
         int area = line1 * line2; // Calculate area
-        printf("Perimeter: %d\n", perimeter); // Print perimeter
-        printf("Area: %d\n", area); // Print area
-        return "Rectangle"; // Return result
+
+        // Allocate memory for the result string
+        char* result = (char*)malloc(50 * sizeof(char));
+        if (result == NULL) {
+            printf_s("Memory allocation failed!\n");
+            exit(1);
+        }
+
+        // Format result string
+        sprintf_s(result, 50, "Perimeter: %d, Area: %d", perimeter, area);
+
+        return result; // Return result
     }
     else {
         return "Not a rectangle"; // Return result
@@ -35,10 +45,18 @@ int calculateLineLength(int x1, int y1, int x2, int y2) {
 
 // Function to get user input for rectangle points
 int* getRectanglePoints(int* points) {
-    printf("Enter the x and y coordinates for each of the four points of the rectangle:\n");
+    printf_s("Enter the x and y coordinates for each of the four points of the rectangle:\n");
     for (int i = 0; i < 8; i += 2) {
-        printf("Point %d (x, y): ", (i / 2) + 1); // Prompt for point coordinates
-        scanf_s("%d %d", &points[i], &points[i + 1]); // Read point coordinates from user (using scanf_s)
+        // Prompt for point coordinates
+        printf_s("Point %d (x, y): ", (i / 2) + 1);
+
+        // Read point coordinates from user
+        while (scanf_s("%d %d", &points[i], &points[i + 1]) != 2) {
+            // Clear input buffer
+            while (getchar() != '\n');
+            // Prompt user again
+            printf_s("Invalid input. Please enter valid coordinates: ");
+        }
     }
-    return points; 
+    return points; // Return updated points array
 }

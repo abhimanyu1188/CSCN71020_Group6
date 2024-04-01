@@ -8,6 +8,3 @@ int printShapeMenu();
 
 // Function to get the sides of a triangle from the user
 int* getTriangleSides(int* triangleSides);
-
-// Function to get the coordinates of points defining a rectangle from the user
-int* getRectanglePoints(int* points);

@@ -1,14 +1,9 @@
-// Including necessary header files
 #include <stdio.h>
 #include <stdbool.h>
 
-// Including custom header files
 #include "main.h"
 #include "triangleSolver.h"
 #include "rectangleSolver.h"
-
-// Global variable declaration
-int side = 0;
 
 // Main function
 int main() {
@@ -33,8 +28,10 @@ int main() {
             // Getting triangle sides from user
             int* triangleSidesPtr = getTriangleSides(triangleSides);
             // Analyzing triangle and printing result
-            char* triangleResult = analyzeTriangle(triangleSidesPtr[0], triangleSidesPtr[1], triangleSidesPtr[2]);
-            printf_s("%s\n", triangleResult);
+            if (triangleSidesPtr != NULL) {
+                TriangleType triangleType = classifyTriangle(triangleSidesPtr[0], triangleSidesPtr[1], triangleSidesPtr[2]);
+                printf_s("Type of Triangle: %s\n", triangleType == Equilateral ? "Equilateral" : (triangleType == Isosceles ? "Isosceles" : (triangleType == Scalene ? "Scalene" : "Not a triangle")));
+            }
             break;
         case 2:
             // Rectangle selected
@@ -44,8 +41,10 @@ int main() {
             // Getting rectangle points from user
             int* pointsPtr = getRectanglePoints(points);
             // Analyzing rectangle and printing result
-            char* rectangleResult = analyzeRectangle(pointsPtr[0], pointsPtr[1], pointsPtr[2], pointsPtr[3], pointsPtr[4], pointsPtr[5], pointsPtr[6], pointsPtr[7]);
-            printf_s("%s\n", rectangleResult);
+            if (pointsPtr != NULL) {
+                char* rectangleResult = analyzeRectangle(pointsPtr[0], pointsPtr[1], pointsPtr[2], pointsPtr[3], pointsPtr[4], pointsPtr[5], pointsPtr[6], pointsPtr[7]);
+                printf_s("%s\n", rectangleResult);
+            }
             break;
         case 0:
             // Exiting program
@@ -80,7 +79,12 @@ int printShapeMenu() {
 
     // Getting user input
     printf_s("Enter number: ");
-    scanf_s("%d", &shapeChoice);
+    while (scanf_s("%d", &shapeChoice) != 1 || (shapeChoice < 0 || shapeChoice > 2)) {
+        // Clear input buffer
+        while (getchar() != '\n');
+        // Prompt user again
+        printf_s("Invalid input. Please enter a valid number: ");
+    }
 
     return shapeChoice;
 }
@@ -90,7 +94,12 @@ int* getTriangleSides(int* triangleSides) {
     printf_s("Enter the three sides of the triangle: ");
     // Getting user input for triangle sides
     for (int i = 0; i < 3; i++) {
-        scanf_s("%d", &triangleSides[i]);
+        while (scanf_s("%d", &triangleSides[i]) != 1 || triangleSides[i] <= 0) {
+            // Clear input buffer
+            while (getchar() != '\n');
+            // Prompt user again
+            printf_s("Invalid input for side %d. Please enter a positive integer: ", i + 1);
+        }
     }
     return triangleSides;
 }
