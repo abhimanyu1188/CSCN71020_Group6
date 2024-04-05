@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdlib.h> // Include stdlib.h for memory allocation
 
-#include "rectangleSolver.h"
+#include "rectanglesolver.h"
 
 // Function to calculate the length of a line segment
 int calculateLineLength(int x1, int y1, int x2, int y2);

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h> // Include math.h for trigonometric functions
 
 #include "main.h"
 #include "triangleSolver.h"
@@ -29,6 +30,11 @@ int main() {
             int* triangleSidesPtr = getTriangleSides(triangleSides);
             // Analyzing triangle and printing result
             if (triangleSidesPtr != NULL) {
+                // Calculate angles
+                double angle1, angle2, angle3;
+                calculateTriangleAngles(triangleSidesPtr[0], triangleSidesPtr[1], triangleSidesPtr[2], &angle1, &angle2, &angle3);
+                printf_s("Internal Angles of Triangle: %.2f, %.2f, %.2f\n", angle1, angle2, angle3);
+
                 TriangleType triangleType = classifyTriangle(triangleSidesPtr[0], triangleSidesPtr[1], triangleSidesPtr[2]);
                 printf_s("Type of Triangle: %s\n", triangleType == Equilateral ? "Equilateral" : (triangleType == Isosceles ? "Isosceles" : (triangleType == Scalene ? "Scalene" : "Not a triangle")));
             }
@@ -65,6 +71,7 @@ void printWelcome() {
     printf_s(" **********************\n");
     printf_s("**     Welcome to     **\n");
     printf_s("**   Polygon Checker  **\n");
+    printf_s("** Triangle Inside Angle **\n"); // Updated welcome message
     printf_s(" **********************\n");
 }
 

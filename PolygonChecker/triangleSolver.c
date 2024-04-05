@@ -25,9 +25,18 @@ TriangleType classifyTriangle(int side1, int side2, int side3) {
 
 // Function to calculate the internal angles of a triangle
 void calculateTriangleAngles(int side1, int side2, int side3, double* angle1, double* angle2, double* angle3) {
-    *angle1 = acos((pow(side2, 2) + pow(side3, 2) - pow(side1, 2)) / (2.0 * side2 * side3));
-    *angle2 = acos((pow(side1, 2) + pow(side3, 2) - pow(side2, 2)) / (2.0 * side1 * side3));
-    *angle3 = acos((pow(side1, 2) + pow(side2, 2) - pow(side3, 2)) / (2.0 * side1 * side2));
+    // Check if the triangle is valid
+    if (classifyTriangle(side1, side2, side3) == NotATriangle) {
+        // Set angles to NaN (not a number) if triangle is not valid
+        *angle1 = NAN;
+        *angle2 = NAN;
+        *angle3 = NAN;
+    }
+    else {
+        *angle1 = acos((pow(side2, 2) + pow(side3, 2) - pow(side1, 2)) / (2.0 * side2 * side3));
+        *angle2 = acos((pow(side1, 2) + pow(side3, 2) - pow(side2, 2)) / (2.0 * side1 * side3));
+        *angle3 = acos((pow(side1, 2) + pow(side2, 2) - pow(side3, 2)) / (2.0 * side1 * side2));
+    }
 }
 
 // Function to check if one triangle is inside another triangle
